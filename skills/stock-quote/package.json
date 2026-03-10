@@ -1,0 +1,12 @@
+{
+  "name": "stock-quote",
+  "version": "1.0.0",
+  "description": "实时股市行情查询技能",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": ["stock", "finance", "quote", "股市", "行情"],
+  "author": "OpenClaw",
+  "license": "MIT"
+}
