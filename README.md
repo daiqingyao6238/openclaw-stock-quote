@@ -1,112 +1,92 @@
-# 📈 stock-quote - 实时股市行情技能
+# 🐙 OpenClaw Skills
 
-## 功能特性
+> 本仓库存放由 OpenClaw AI 助手生成的技能 (Skills)
 
-- ✅ **A 股支持** - 上交所、深交所全部股票
-- ✅ **港股支持** - 港交所全部股票
-- ⚠️ **美股支持** - 需要配置 API Key（见下方说明）
-- 📊 **实时行情** - 当前价、涨跌、今开、最高、最低、成交量
-- 🎯 **智能识别** - 支持股票代码和常用股票名称
+## 简介
 
-## 快速开始
+这些技能 (Skills) 是为 OpenClaw 平台开发的扩展模块，每个技能都针对特定功能场景，可以增强 OpenClaw 的能力。
 
-### 安装
+## 技能列表
 
-技能已位于：`~/.openclaw/workspace/skills/stock-quote`
+### 📈 stock-quote - 实时股票行情
 
-在 OpenClaw 中注册技能（具体命令参考 OpenClaw 文档）：
+获取中国 A 股、港股、美股的实时行情数据。
+
+**数据源**: 腾讯财经（免费，无需 API Key）
+
+**使用方式**:
+```bash
+python3 skills/stock-quote/scripts/stock_quote.py 600519    # 茅台
+python3 skills/stock-quote/scripts/stock_quote.py 00700    # 腾讯
+python3 skills/stock-quote/scripts/stock_quote.py 600519 000001 700  # 批量查询
+```
+
+**支持市场**:
+| 市场 | 代码示例 |
+|------|----------|
+| 上海A股 | 600519 |
+| 深圳A股 | 000001 |
+| 港股 | 00700 |
+
+---
+
+### 📰 finance-news - 财经新闻
+
+获取东方财富网的实时财经新闻资讯。
+
+**数据源**: 东方财富网（免费，无需 API Key）
+
+**使用方式**:
+```bash
+# 默认股市要闻
+python3 skills/finance-news/scripts/finance_news.py
+
+# 指定频道
+python3 skills/finance-news/scripts/finance_news.py 宏观经济
+python3 skills/finance-news/scripts/finance_news.py 行业新闻
+```
+
+**支持频道**: 股市要闻、宏观经济、行业新闻、公司新闻、基金新闻、外汇、债券、期货、港股、美股
+
+---
+
+## 安装方式
+
+### 方式一：直接使用 Python 脚本
+
+每个技能的 `scripts/` 文件夹下都有独立的 Python 脚本，直接运行即可：
 
 ```bash
-openclaw skills install ~/.openclaw/workspace/skills/stock-quote
+python3 skills/<skill-name>/scripts/<script>.py [参数]
 ```
 
-### 使用方法
+### 方式二：安装为 OpenClaw 技能
 
-直接在聊天中发送：
-
-```
-腾讯股价
-600519
-AAPL
-贵州茅台行情
-/stock 00700
+```bash
+# 具体安装命令请参考 OpenClaw 官方文档
+openclaw skills install ./skills/<skill-name>
 ```
 
-### 支持格式
+## 环境要求
 
-| 市场 | 格式 | 示例 |
-|------|------|------|
-| A 股 | 6 位数字 | 600519, 000001, 300750 |
-| 港股 | 5 位数字 | 00700, 09988, 03690 |
-| 美股 | 股票代码 | AAPL, TSLA, GOOGL |
-| 名称 | 中文名称 | 腾讯、茅台、特斯拉 |
-
-### 内置股票名称
-
-```
-腾讯、腾讯控股、阿里巴巴、阿里、茅台、贵州茅台、
-宁德时代、特斯拉、苹果、英伟达、微软、谷歌、
-亚马逊、美团、小米、百度、拼多多、网易、京东、
-五粮液、招商银行、平安、中国平安、比亚迪、顺丰
-```
-
-## 美股 API 配置（可选）
-
-由于免费美股数据源有限，如需完整美股支持：
-
-### 方案 1: Finnhub（推荐）
-
-1. 访问 https://finnhub.io 注册免费账号
-2. 获取 API Key
-3. 编辑 `index.js`，将 `YOUR_API_KEY` 替换为你的 key
-
-### 方案 2: Alpha Vantage
-
-1. 访问 https://www.alphavantage.co 注册
-2. 获取免费 API Key（每分钟 5 次请求）
-3. 修改代码使用 Alpha Vantage API
-
-## 数据来源
-
-- **A 股/港股**: 腾讯财经 API (http://qt.gtimg.cn)
-- **美股**: Finnhub / Alpha Vantage（需配置）
+- Python 3.7+
+- 网络访问权限（用于获取实时数据）
 
 ## 注意事项
 
-- ⚠️ 免费数据源可能有 15 分钟延迟
-- ⚠️ API 有速率限制，请勿频繁请求
-- ⚠️ 网络问题可能导致暂时无法获取数据
+1. 所有数据仅供本人参考，不构成投资建议
+2. 免费数据源可能有延迟或限制，请合理使用
+3. 请遵守数据源的使用条款
 
-## 测试
+## 后续计划
 
-```bash
-cd ~/.openclaw/workspace/skills/stock-quote
-node test.js
-```
+更多技能正在开发中...
 
-## 扩展股票名称
-
-编辑 `index.js` 中的 `STOCK_SYMBOLS` 对象：
-
-```javascript
-const STOCK_SYMBOLS = {
-  '腾讯': '00700',
-  '你的股票名': '股票代码',
-  // ...
-};
-```
-
-## 故障排除
-
-### 收不到数据
-
-1. 检查网络连接
-2. 确认股票代码正确
-3. 查看 OpenClaw 日志：`openclaw logs --follow`
-
-### 美股数据不可用
-
-配置 Finnhub API Key 或暂时使用 A 股/港股功能。
+- [ ] 天气预报
+- [ ] 货币汇率
+- [ ] 加密货币行情
+- [ ] 限行尾号查询
+- [ ] 更多...
 
 ## License
 
